@@ -5,6 +5,7 @@ import asyncio
 from telegram import Bot
 import logging
 import os
+import json  # добавили для парсинга JSON из переменной окружения
 
 # Настройка логирования
 logging.basicConfig(
@@ -20,11 +21,17 @@ GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1ldoSSLZKb7nEXb5pKSH9
 # Получаем credentials из переменных окружения
 CREDENTIALS_JSON = os.getenv('GOOGLE_CREDENTIALS')
 
+if not CREDENTIALS_JSON:
+    logger.critical("Переменная окружения GOOGLE_CREDENTIALS не установлена!")
+    raise SystemExit("Нет данных для подключения к Google Sheets")
+
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 
 async def init_google_sheets():
     try:
-        creds = ServiceAccountCredentials.from_json_keyfile_dict(eval(CREDENTIALS_JSON), scope)
+        # Исправлено: используем json.loads вместо eval
+        creds_dict = json.loads(CREDENTIALS_JSON)
+        creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
         client = gspread.authorize(creds)
         sheet = client.open_by_url(GOOGLE_SHEET_URL).sheet1
         logger.info("Успешное подключение к Google Sheets")
