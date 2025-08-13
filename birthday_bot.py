@@ -85,9 +85,9 @@ async def check_birthdays(sheet):
         if birthday_people:
             if len(birthday_people) > 1:
                 names_str = ", ".join(birthday_people)
-                message = f"{names_str} поздравляем вас с днем рождения! 🎉🥳"
+                message = f"Наши именинники сегодня:{names_str} Поздравляем с Днем Рождения!!! ❤️"
             else:
-                message = f"{birthday_people[0]} поздравляем с днем рождения! 🎉🥳"
+                message = f"Наши именинники сегодня:{birthday_people[0]} Поздравляем с Днем Рождения!!! ❤️"
 
             await bot.send_message(chat_id=CHANNEL_ID, text=message)
             logger.info(f"Отправлено сообщение: {message}")
@@ -125,3 +125,4 @@ if __name__ == "__main__":
         logger.info("Бот остановлен вручную")
     except Exception as e:
         logger.critical(f"Необработанное исключение: {str(e)}")
+
