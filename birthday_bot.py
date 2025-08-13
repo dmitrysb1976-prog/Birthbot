@@ -83,12 +83,13 @@ async def check_birthdays(sheet):
                 continue
 
         if birthday_people:
+            # Только одно сообщение с правильным вариантом текста
             if len(birthday_people) == 1:
-                message = f"Наш именинник сегодня: {birthday_people[0]} - поздравляем с Днем Рождения!!! ❤️"
+                message = f"Наш именинник сегодня:\n{birthday_people[0]}\nПоздравляем с Днем Рождения!!! ❤️"
             else:
                 names_str = ", ".join(birthday_people)
-                message = f"Наши именинники сегодня: {names_str} - поздравляем с Днем Рождения!!! ❤️"
-
+                message = f"Наши именинники сегодня:\n{names_str}\nПоздравляем с Днем Рождения!!! ❤️"
+            
             await bot.send_message(chat_id=CHANNEL_ID, text=message)
             logger.info(f"Отправлено сообщение: {message}")
         else:
