@@ -103,27 +103,21 @@ async def main():
     logger.info("Запуск бота...")
     try:
         sheet = await init_google_sheets()
-        logger.info("Бот успешно запущен. Начинаем ежедневные проверки.")
+        logger.info("Бот успешно запущен. Начинаем ежедневные проверки в 9:00.")
         
         while True:
             try:
-                await check_birthdays(sheet)
-                logger.info("Проверка завершена. Жду 24 часа до следующей проверки...")
-                await asyncio.sleep(24 * 60 * 60)  # спим сутки
+                now = datetime.now()
+                
+                # Если сейчас 9:00 утра или время первого запуска
+                if now.hour == 9 or not hasattr(main, 'last_run'):
+                    await check_birthdays(sheet)
+                    main.last_run = now.date()  # Запоминаем дату последнего запуска
+                
+                # Ждем до следующей проверки (1 минута)
+                await asyncio.sleep(60)
+                
             except Exception as e:
                 logger.error(f"Ошибка в основном цикле: {str(e)}")
                 logger.info("Повторная попытка через 1 час...")
                 await asyncio.sleep(3600)  # ждем 1 час при ошибке
-                
-    except Exception as e:
-        logger.critical(f"Фатальная ошибка: {str(e)}. Бот остановлен.")
-        raise
-
-if __name__ == "__main__":
-    try:
-        asyncio.run(main())
-    except KeyboardInterrupt:
-        logger.info("Бот остановлен вручную")
-    except Exception as e:
-        logger.critical(f"Необработанное исключение: {str(e)}")
-
