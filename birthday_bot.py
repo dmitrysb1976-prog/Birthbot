@@ -85,7 +85,7 @@ async def check_birthdays(sheet):
         if birthday_people:
             if len(birthday_people) > 1:
                 names_str = ", ".join(birthday_people)
-                message = f"Наши именинники сегодня: {names_str} - поздравляем с Днем Рождения!!! ❤️"
+                message = f"Наш именинник сегодня: {names_str} - поздравляем с Днем Рождения!!! ❤️"
             else:
                 message = f"Наши именинники сегодня: {birthday_people[0]} - поздравляем с Днем Рождения!!! ❤️"
 
@@ -125,5 +125,6 @@ if __name__ == "__main__":
         logger.info("Бот остановлен вручную")
     except Exception as e:
         logger.critical(f"Необработанное исключение: {str(e)}")
+
 
 
