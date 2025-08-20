@@ -15,7 +15,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 TELEGRAM_TOKEN = "8373441354:AAGFRXqeet3CmeX0yA7U-fL1Ta_Yjg5D9xo"
-CHANNEL_ID = "@testNewTerritory"
+CHANNEL_ID = "@newterritorysrb"
 GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1ldoSSLZKb7nEXb5pKSH90PT3IgKMNc9Rj9JjfAUz0JU/edit?usp=sharing"
 
 # Получаем credentials из переменных окружения
@@ -126,5 +126,6 @@ if __name__ == "__main__":
         logger.info("Бот остановлен вручную")
     except Exception as e:
         logger.critical(f"Необработанное исключение: {str(e)}")
+
 
 
